@@ -1,11 +1,11 @@
 namespace Tsinswreng.CsTempus;
-using TStruct = Tempus;
+using TStruct = UnixMs;
 using TPrimitive = i64;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 
-public partial struct Tempus
-	:IEquatable<Tempus>
+public partial struct UnixMs
+	:IEquatable<UnixMs>
 	,IComparable
 {
 
@@ -31,11 +31,11 @@ public partial struct Tempus
 	public static implicit operator TStruct(TPrimitive s){
 		return new TStruct(s);
 	}
-	public static implicit operator DateTime(Tempus Tempus){
+	public static implicit operator DateTime(UnixMs Tempus){
 		return DateTimeOffset.FromUnixTimeMilliseconds(Tempus.Value).LocalDateTime;
 	}
 
-	public static implicit operator Tempus(DateTime DateTime){
+	public static implicit operator UnixMs(DateTime DateTime){
 		return new DateTimeOffset(DateTime).ToUnixTimeMilliseconds();
 	}
 
@@ -68,7 +68,7 @@ public partial struct Tempus
 	}
 
 	public int CompareTo(object obj) {
-		if(obj is Tempus t){
+		if(obj is UnixMs t){
 			return Value.CompareTo(t.Value);
 		}
 		return Value.CompareTo(obj);
@@ -86,12 +86,12 @@ public class InMillisecond{
 }
 
 public static class ExtnTempus{
-	public static str ToIso(this Tempus z){
+	public static str ToIso(this UnixMs z){
 		return DateTimeOffset.FromUnixTimeMilliseconds(z.Value)
 		.ToString("yyyy-MM-ddTHH:mm:ss.fffzzz", CultureInfo.InvariantCulture);
 	}
 
-	extension(Tempus z){
+	extension(UnixMs z){
 		public static bool TryFromIso(str Iso, out TStruct R){
 			R = default;
 			if (string.IsNullOrWhiteSpace(Iso)) return false;
